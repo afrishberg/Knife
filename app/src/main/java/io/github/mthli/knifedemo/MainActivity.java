@@ -15,6 +15,9 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import io.github.mthli.knife.KnifeText;
+import io.github.mthli.styleHandlers.BoldStyleHandler;
+import io.github.mthli.styleHandlers.ItalicStyleHandler;
+import io.github.mthli.styleHandlers.UnderlineStyleHandler;
 
 public class MainActivity extends Activity {
     private static final String BOLD = "<b>Bold</b><br><br>";
@@ -54,7 +57,7 @@ public class MainActivity extends Activity {
         bold.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                knife.bold(!knife.contains(KnifeText.FORMAT_BOLD));
+                knife.toggleHandler(BoldStyleHandler.class);
             }
         });
 
@@ -73,7 +76,7 @@ public class MainActivity extends Activity {
         italic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                knife.italic(!knife.contains(KnifeText.FORMAT_ITALIC));
+                knife.toggleHandler(ItalicStyleHandler.class);
             }
         });
 
@@ -92,7 +95,7 @@ public class MainActivity extends Activity {
         underline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                knife.underline(!knife.contains(KnifeText.FORMAT_UNDERLINED));
+                knife.toggleHandler(UnderlineStyleHandler.class);
             }
         });
 

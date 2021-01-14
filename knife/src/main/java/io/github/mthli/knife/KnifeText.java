@@ -158,7 +158,7 @@ public class KnifeText extends EditText implements TextWatcher {
             return;
         }
 
-        Object[] spans = getEditableText().getSpans(start, end, handler.getStyleSpan().getClass());
+        Object[] spans = handler.getSpans(getEditableText(), start, end);
         List<KnifePart> list = new ArrayList<>();
 
         for (Object span : spans) {
@@ -196,10 +196,9 @@ public class KnifeText extends EditText implements TextWatcher {
             if (start - 1 < 0 || start + 1 > getEditableText().length()) {
                 return false;
             } else {
-                Object[] before = getEditableText().getSpans(start - 1, start,
-                                                             styleSpan.getClass());
-                Object[] after = getEditableText().getSpans(start, start + 1,
-                                                            styleSpan.getClass());
+                Object[] before = styleHandler.getSpans(getEditableText(), start -1, start);
+
+                Object[] after = styleHandler.getSpans(getEditableText(), start, start + 1);
                 return before.length > 0 && after.length > 0;
             }
         } else {
@@ -207,7 +206,7 @@ public class KnifeText extends EditText implements TextWatcher {
 
             // Make sure no duplicate characters be added
             for (int i = start; i < end; i++) {
-                if (getEditableText().getSpans(i, i + 1, styleSpan.getClass()).length > 0) {
+                if (styleHandler.getSpans(getEditableText(), i, i+1).length > 0) {
                     builder.append(getEditableText().subSequence(i, i + 1).toString());
                 }
             }
@@ -784,12 +783,6 @@ public class KnifeText extends EditText implements TextWatcher {
 
     public boolean contains(int format) {
         switch (format) {
-            case FORMAT_BOLD:
-                return containStyle(Typeface.BOLD, getSelectionStart(), getSelectionEnd());
-            case FORMAT_ITALIC:
-                return containStyle(Typeface.ITALIC, getSelectionStart(), getSelectionEnd());
-            case FORMAT_UNDERLINED:
-                return containUnderline(getSelectionStart(), getSelectionEnd());
             case FORMAT_STRIKETHROUGH:
                 return containStrikethrough(getSelectionStart(), getSelectionEnd());
             case FORMAT_BULLET:
